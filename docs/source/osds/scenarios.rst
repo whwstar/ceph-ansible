@@ -111,12 +111,6 @@ This will result in the following mapping:
 - ``/dev/sdd`` will have ``/dev/sdg2`` as a journal
 
 
-.. warning::
-
-   On a containerized scenario we only support A SINGLE journal
-   for all the OSDs on a given machine. If you don't, bad things will happen
-   This is a limitation we plan to fix at some point.
-
 If ``osd_objectstore: bluestore`` is enabled, both 'ceph block.db' and 'ceph block.wal' partitions will be stored
 on a dedicated device.
 
@@ -183,11 +177,6 @@ lvm
 This OSD scenario uses ``ceph-volume`` to create OSDs from logical volumes and
 is only available when the Ceph release is Luminous or newer.
 
-.. note::
-
-   The creation of the logical volumes is not supported by ``ceph-ansible``, ``ceph-volume``
-   only creates OSDs from existing logical volumes.
-
 
 Configurations
 ^^^^^^^^^^^^^^
@@ -201,7 +190,8 @@ with the ``lvm`` osd scenario.
   defined in ``lvm_volumes``.
 
 - ``devices`` is a list of raw device names as strings. If ``devices`` is defined then the ``ceph-volume lvm batch``
-  command will be used to deploy OSDs.
+  command will be used to deploy OSDs. You can also use the ``osds_per_device`` variable to inform ``ceph-volume`` how
+  many OSDs it should create from each device it finds suitable.
 
 Both ``lvm_volumes`` and ``devices`` can be defined and both methods would be used in the deployment or you
 can pick just one method.
